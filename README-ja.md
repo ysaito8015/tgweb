@@ -6,13 +6,13 @@
 * [はじめに](#はじめに)
 * [ディレクトリ構造](#ディレクトリ構造)
 * [複数のウェブサイトを管理する方法](#複数のウェブサイトを管理する方法)
-* [Pages](#pages)
-* [Front Matter](#front-matter)
+* [ページ](#ページ)
+* [フロントマター](#フロントマター)
 * [Color Scheme](#color-scheme)
 * [Images](#images)
 * [Audios](#audios)
 * [Fonts and Icons](#fonts-and-icons)
-* [Layouts](#layouts)
+* [レイアウト](#レイアウト)
 * [Wrappers](#wrapper)
 * [Segments](#segments)
 * [Components](#components)
@@ -22,7 +22,7 @@
 * [Dynamic Elements](#dynamic-elements)
 * [Embedding Teamgenik Mini-apps](#embedding-teamgenik-mini-apps)
 * [Notes on Property Values](#notes-on-property-values)
-* [Managing the Contents of the `<head>` Element](#managing-the-contents-of-the-head-element)
+* [`<head>` 要素に含まれる内容について](#head-要素に含まれる内容について)
 * [TODO List](#todo-list)
 * [License](#license)
 
@@ -287,17 +287,14 @@ rm -rf sites
 
 ### ページとは
 
-In **tgweb**, the HTML documents that make up a website are generated from a combination of
-template files. A _page_ is a type of such template file.
+**tgweb** において、ウェブサイト作成に用いられる HTML ドキュメントは、テンプレートファイルの組み合わせから生成されます。
+<ins>ページ</ins>とは前述の生成に用いられるテンプレートファイルの一種です。
 
-Non-page templates include layouts, segments, wrappers, articles, and components, which
-are described in turn in the following sections.
+ページ以外のテンプレートファイル（レイアウト、セグメント、ラッパー、アーティクル、部品）は、以降のセクションで説明します。
 
-Pages are placed in the `src/pages` subdirectory under the working directory.
+ページは、作業ディレクトリ以下の `src/pages` ディレクトリに配置されます。
 
-It is possible to create a subdirectory under the `src/pages` directory and place pages under it.
-However, it is not possible to create a subdirectory directly under the `src/pages` directory with
-the following names:
+`src/pages` ディレクトリ以下にサブディレクトリを作成することは可能ですが、以下の名前のディレクトリは作成できません。
 
 * `articles`
 * `audios`
@@ -305,14 +302,14 @@ the following names:
 * `tags`
 * `videos`
 
-Every website must have a file named `index.html` in the `src/pages` directory.
-From this page, the _home page_ of the website is generated.
+作成するウェブサイトは、`src/pages` ディレクトリ内に必ず `index.html` という名前のファイルが必要です。
+このファイルから、ウェブサイトの<ins>ホームページ</ins>が生成されます。
 
-### Adding a simple page
+### シンプルなページの作成
 
-Pages to which a [layout](#Layouts) is not applied are called "simple pages".
+[レイアウト](#レイアウト)が適用されていないページを「シンプルなページ」とよびます。
 
-The following is an example of a simple page:
+以下は、シンプルなページの例です。
 
 ```html
 <body>
@@ -323,46 +320,41 @@ The following is an example of a simple page:
 </body>
 ```
 
-Note that the top-level element of a page should be the `<body>` element.
-Unlike normal HTML files, a tgweb page is not enclosed in `<html>` and `</html>` tags and does
-not have a `<head>` element.
-A page will be converted into a complete HTML document and written to the `dist` directory.
+ページのトップレベル要素は、`<body>` である必要があります。
+通常の HTML ファイルと違い、tgweb のページは、`<html>` と `</html>` タグで囲われておらず、`<head>` 要素も含みません。
+ページファイルは、完全な HTML ドキュメントに変換され、`dist` ディレクトリに出力されます。
 
-For example, `src/pages/index.html` is converted to `dist/index.html` and
-`src/pages/shops/new_york.html` is converted to `dist/shops/new_york.html`.
+例えば、`src/pages/index.html` は `dist/index.html` に変換され、`src/pages/shops/new_york.html` は `dist/shops/new_york.html` に変換されます。
 
-The content of the `<head>` element is automatically generated.
-See [below](#managing-the-contents-of-the-head-element) for details.
+`<head>` 要素は自動的に生成されます。詳細は、[こちら](#head-要素に含まれる内容について)を参照してください。
 
-## Color Scheme
+## カラースキーマ
 
-### Cusotom color names
+### 色名の変更
 
-Editing the `color_scheme.toml` in the `src` directory allows you to define custom color names
-for Tailwind CSS.
+`src` ディレクトリ内の `color_scheme.toml` ファイルを編集することで Tailwind CSS に独自の色名を設定できます。
 
-A custom color name is a combination of a _palette_ and a _modifier_.
-The palette is a three-letter alphabet and the modifier is a one-letter alphabet.
-The palette and modifier are joined by a minus sign, like `bas-s` or `neu-d`.
+独自の色名は、<ins>パレット</ins>と<ins>モディファイヤ</ins>の組み合わせで定義されます。
+パレットは、英字三文字で構成され、モディファイヤは英字一文字です。
+パレットとモディファイヤはマイナス記号で接続します。例えば、`bas-s` や `neu-d` のようになります。
 
-The following is a list of available palettes and their expected uses.
+以下のリストは、使用可能なパレットとその使用例です。
 
-* **bas**: Base color (background color of entire website)
-* **neu**: Neutral color (a quiet color like gray, beige, ivory, etc.)
-* **pri**: Primary color (most frequently used color other than base and neutral colors)
-* **sec**: Secondary color (second most frequently used color other than base and neutral colors)
-* **acc**: Accent color (third most frequently used color other than base and neutral colors)
-* **nav**: Navigation color (background color of navigation bar or sidebar)
+* **bas**: ベース・カラー（ウェブサイト全体の背景色）
+* **neu**: ニュートラル・カラー（グレー、ベージュ、アイボリーなどの色味のない色）
+* **pri**: プライマリ・カラー（基本色や、無彩色より多くの箇所で用いられる色）
+* **sec**: セカンダリ・カラー（二番目に、基本色や、無彩色より多くの箇所で用いられる色）
+* **acc**: アクセント・カラー（三番目に、基本色や、無彩色より多くの箇所で用いられる色）
+* **nav**: ナビゲーションカラー（ナビゲージョンバーやサイドバーなどの背景色）
 
-The following is a list of modifiers and their expected meaning.
+以下のリストは、使用可能なモディファイヤとその意味です。
 
-* **s**: Starndard
-* **b**: Brighter
-* **d**: Darker
-* **c**: Contrasting
+* **s**: スタンダード
+* **b**: 彩度を上げる、ブライター
+* **d**: 彩度を下げる、ダーカー
+* **c**: 対比色、コントラスト
 
-Here, "contrasting" means a color with good visibility when text is drawn in that color against
-a standard-color background.
+ここで「コントラスト」は、標準的な背景色に対比して、視覚的に認識しやすい色を意味します。
 
 `src/color_scheme.toml`
 
@@ -373,21 +365,19 @@ pri-s = "#45ba9f"
 sec-s = "#70365d"
 ```
 
-The defined custom color names can be used as the names of the colors that make up the Tailwind
-CSS classes. For example, to set the color defined as `pri-s` as the background color of an
-element, specify the `bg-pri-s` class in its `class` attribute.
+定義された独自色名は Tailwind CSS のクラスを構成する色名として使用できます。
+例えば、ある要素の背景色を `pri-s` として設定したい場合は、その要素の `class` 属性には `bg-pri-s` を設定します。
 
-### daisyUI color names
+### daisyUI カラーネーム
 
-You can also use the color names provided by [daisyUI](https://daisyui.com/), such as `primary`,
-`secondary`, `success`, `warning`.
-For more information, see [Colors](https://daisyui.com/docs/colors/) in the daisyUI Documentation.
+[daisyUI](https://daisyui.com/) が提供する色名を使用できます。例えば、`primary`、`secondary`、`success`、`warning` などです。
+詳しくは daisyUI ドキュメントの [Colors](https://daisyui.com/docs/colors/) を参照してください。
 
-Please note that at this time, tgweb does not support the switching of the daisyUI themes.
+現時点では、tgweb は daisyUI テーマの切り替えをサポートしていません。
 
-## Front Matter
+## フロントマター
 
-### Front matter block
+### フロントマターブロック
 
 When a template begins with a line that consists only of `---` and there is another such line in
 the template, the area enclosed by these two lines is called the _front matter block_.
@@ -924,7 +914,7 @@ The following example uses the italic Pathway Extreme font family with weight 40
 <p class="font-['Pathway_Extreme'] italic font-[400]">Hello, world!</p>
 ```
 
-## Layouts
+## レイアウト
 
 ### What is a layout
 
@@ -2818,7 +2808,7 @@ When a component is embedded into a page, article, segment, wrapper, layout,
 the values that are substituted for the `<tg:prop>` and `<tg:data>` elements in that template
 are the values of properties of the main template (page or article).
 
-## Managing the Contents of the `<head>` Element
+## `<head>` 要素に含まれる内容について
 
 ### `<title>` element
 

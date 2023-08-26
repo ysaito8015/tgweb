@@ -283,9 +283,9 @@ rm -rf sites
 
 注意点として、上記のコマンドは、`sites` 下層のディレクトリに複数のディレクトリがあった場合 `site_0` 以外のディレクトリを削除します。
 
-## Pages
+## ページ
 
-### What is a page
+### ページとは
 
 In **tgweb**, the HTML documents that make up a website are generated from a combination of
 template files. A _page_ is a type of such template file.
